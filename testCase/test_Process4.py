@@ -39,7 +39,7 @@ class TestProcess4:
     @pytest.mark.orderSyn
     def test_orderSyn_B(self):
         i = 0
-        while i < 10:
+        while i < 5:
             waybillCode = createOrder()[0]  # openAPI下单
             self.billCode_list.append(waybillCode)
             i = i + 1
