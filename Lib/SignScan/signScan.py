@@ -20,9 +20,9 @@ class signScan:
         re = requests.post(url,json=data,headers=headers)
         re = json.loads(re.text)  # 字符串转成字典
         if re["success"] == True:
-            print("签收扫描成功")
+            print("正常签收成功")
         else:
-            print("签收扫描失败",re)
+            print("正常签收失败",re)
 
 
 if __name__ == "__main__":

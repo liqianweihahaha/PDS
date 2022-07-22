@@ -27,7 +27,7 @@ class dispatchScan:
 
 
 if __name__ == "__main__":
-    token = login("880220033","test123456")
-    res = dispatchScan().dispatchScan(token,"BD040001001703")
+    token = login("880220030","test123456")
+    res = dispatchScan().dispatchScan(token,"BD020156547631")
 
 

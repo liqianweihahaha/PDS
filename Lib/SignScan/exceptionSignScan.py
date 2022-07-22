@@ -5,7 +5,7 @@ from Common.login import login
 
 # 异常签收扫描接口
 class exceptionSignScan:
-    def exceptionSignScan(self,token,waybillCode):
+    def exceptionSignScan(self,token,waybillCode,exceptionType):
         url = uat_config + "/basic/manager/sign/exception/add"
         headers = {'Content-Type': 'application/json',
                    'Authorization': token,
@@ -13,7 +13,7 @@ class exceptionSignScan:
                    'Connection': 'close'}
 
         data = {
-                "exceptionType":"730",
+                "exceptionType": exceptionType,   # 731代表的是电话不通或错误     730代表退件签收
                 "signer":"tata",
                 "waybillCode": waybillCode,
                 "remark":"autotest",

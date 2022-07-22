@@ -7,6 +7,14 @@ password = "ARxk8mkoyRf8"
 dbname = "speedaf_cheetah_warehouse_bd"    # 要连接的库名
 
 
+# Test数据库
+# hostname = "39.108.178.162"
+# username = "root"
+# password = "root"
+# dbname = "speedaf_cheetah_warehouse_bd"    # 要连接的库名
+
+
+
 # 查询运单状态
 def waybillStatus_query(waybill):
     # 创建数据库连接
@@ -294,6 +302,29 @@ def signRecord_query(waybill):
     return id
 
 
+# 查询退件登记表对应的记录id，用于取消退件
+def returnRegisterRecordID_query(waybill):
+    # 创建数据库连接
+    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    # 建立游标
+    cursor = conn.cursor()
 
-# a = signRecord_query('BD030001006343')
-# print(a)
+    conn.ping(reconnect=True)
+    # 执行sql，查询是否生成退件记录ID     退件状态status 0为已取消，1为未取消
+    sql = f"SELECT id,status FROM tt_return_register where  waybill_code  in ('{waybill}');"
+    cursor.execute(sql)
+
+    # 获取数据
+    data = cursor.fetchall()
+    id = data[0][0]
+    status = int(data[0][1])
+
+    # 关闭，释放资源
+    cursor.close()
+    conn.close()
+
+    return id,status
+
+
+# a = returnRegisterRecordID_query('BD020156547417')
+# print(type(a))

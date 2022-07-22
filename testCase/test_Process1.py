@@ -300,7 +300,7 @@ class TestProcess1:
     @pytest.mark.exceptionSignScan
     def test_exceptionSignScan_site02(self):
         # 异常签收记录---这里只异常签收第一个运单
-        exceptionSignScan().exceptionSignScan(self.site02_token, self.billCode_list[0])
+        exceptionSignScan().exceptionSignScan(self.site02_token, self.billCode_list[0],"731")
 
         # 断言这个运单的最新状态是否是异常签收-- -2
         assert waybillStatus_query(self.billCode_list[0]) == -2

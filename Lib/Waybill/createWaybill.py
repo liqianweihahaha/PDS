@@ -95,7 +95,7 @@ class Waybill:
 
 
 if __name__ == "__main__":
-    token = login("880220030", "test123456")
+    token = login("880220038", "a123456")
     indata = {
         "customerCode": "",
         "seller": "",

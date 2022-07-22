@@ -37,7 +37,7 @@ def createOrder():
         "codFee": 10,
         # "billCode": 666666664,
         "customOrderNo": random.randint(1111111,9999999),
-        "customerCode": "860062",   # uat普通客户--推msd
+        "customerCode": "860059",   # uat普通客户--推msd
         "parcelHigh": 1000,
         "parcelLength": 1000,
         "parcelVolume": 1.52,
