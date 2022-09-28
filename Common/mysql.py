@@ -326,5 +326,101 @@ def returnRegisterRecordID_query(waybill):
     return id,status
 
 
-# a = returnRegisterRecordID_query('BD020156547417')
-# print(type(a))
+
+# 查询箱号表是否有该箱号数据
+def whseBoxCode_query(box_code):
+    # 创建数据库连接
+    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    # 建立游标
+    cursor = conn.cursor()
+
+    conn.ping(reconnect=True)
+    # 执行sql，查询是否生成箱号记录
+    sql = f"SELECT * FROM tt_whse_box where  box_code  in ('{box_code}');"
+    cursor.execute(sql)
+
+    # 获取数据
+    data = cursor.fetchall()
+    data_length = len(data)
+
+    # 关闭，释放资源
+    cursor.close()
+    conn.close()
+
+    return data_length
+
+
+# 查询装箱表是否有该条数据
+def whsePackScan_query(box_code):
+    # 创建数据库连接
+    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    # 建立游标
+    cursor = conn.cursor()
+
+    conn.ping(reconnect=True)
+    # 执行sql，查询是否生成箱号记录
+    sql = f"SELECT * FROM tt_whse_pack_scan where  box_code  in ('{box_code}');"
+    cursor.execute(sql)
+
+    # 获取数据
+    data = cursor.fetchall()
+    data_length = len(data)
+
+    # 关闭，释放资源
+    cursor.close()
+    conn.close()
+
+    return data_length
+
+
+# 查询上架表是否有该条数据
+def onShelfScan_query(box_code):
+    # 创建数据库连接
+    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    # 建立游标
+    cursor = conn.cursor()
+
+    conn.ping(reconnect=True)
+    # 执行sql，查询是否生成箱号记录
+    sql = f"SELECT * FROM tt_whse_on_shelf_scan where  box_code  in ('{box_code}');"
+    cursor.execute(sql)
+
+    # 获取数据
+    data = cursor.fetchall()
+    data_length = len(data)
+
+    # 关闭，释放资源
+    cursor.close()
+    conn.close()
+
+    return data_length
+
+
+# 查询箱子表 该箱的完结状态
+def boxStatus_query(box_code):
+    # 创建数据库连接
+    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    # 建立游标
+    cursor = conn.cursor()
+
+    conn.ping(reconnect=True)
+    # 执行sql，查询是否生成箱号记录
+    sql = f"SELECT status FROM tt_whse_box where  box_code  in ('{box_code}');"
+    cursor.execute(sql)
+
+    # 获取数据
+    data = cursor.fetchall()
+    status = int(data[0][0])
+
+    # 关闭，释放资源
+    cursor.close()
+    conn.close()
+
+    return status
+
+
+
+
+
+a = boxStatus_query('BDB202209280008')
+print(a)

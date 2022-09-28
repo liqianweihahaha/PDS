@@ -27,10 +27,10 @@ def createOrder():
         "acceptDistrictCode": "A0624",
         "acceptDistrictName": "432TRETERTRET4234",
         "acceptEmail": "123@Test.com",
-        "acceptMobile": "+2340000",  #
+        "acceptMobile": "+233-666666",  #
         "acceptCitizenId":"11111111110",
         "acceptName": "wewqeqwerewrewrwrrewrwer",
-        "acceptPhone": "2341111111111",
+        "acceptPhone": '+233-666666',  # 备用手机号，选填
         "acceptPostCode": "acceptCode",
         "acceptProvinceCode": "R006",
         "acceptProvinceName": "  3456REWR 7899 5501  ",

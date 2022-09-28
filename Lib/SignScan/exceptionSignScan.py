@@ -13,11 +13,13 @@ class exceptionSignScan:
                    'Connection': 'close'}
 
         data = {
-                "exceptionType": exceptionType,   # 731代表的是电话不通或错误     730代表退件签收
+                "exceptionType": exceptionType,   # 731代表的是电话不通或错误
                 "signer":"tata",
                 "waybillCode": waybillCode,
                 "remark":"autotest",
-                "photoUrl":"517f5f2b-59a7-4343-9226-ff5fb7253941.png"
+                "photoUrl":"517f5f2b-59a7-4343-9226-ff5fb7253941.png",
+                "dutySite":"880011",
+                "dutySiteName":"一级网点",
             }
 
         re = requests.post(url,json=data,headers=headers)

@@ -69,8 +69,8 @@ class TestProcess2:
     def test_modifyWaybill_site01(self):
         Waybill().modifyWaybill(self.billCode_list[0], self.site01_token)
 
-        # 断言运单修改后 是否正常生成问题件和拦截件,问题件类型IP13代表修改面单信息
-        assert problemRecord_query(self.billCode_list[0])[1] == "IP13"
+        # 断言运单修改后 是否正常生成问题件和拦截件,问题件类型IP13代表修改面单信息---9.5版本已去掉
+        # assert problemRecord_query(self.billCode_list[0])[1] == "IP13"
         assert interceptRecord_query(self.billCode_list[0])[0] == 1  # 自动生成了拦截件
         assert interceptRecord_query(self.billCode_list[0])[1] == 0  # 已拦截
 

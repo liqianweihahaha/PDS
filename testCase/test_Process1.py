@@ -293,6 +293,7 @@ class TestProcess1:
 
 
 
+
     @allure.story('一级网点02-异常签收操作')
     @allure.title('一级网点02-异常签收操作')
     @allure.severity('critical')
@@ -304,6 +305,14 @@ class TestProcess1:
 
         # 断言这个运单的最新状态是否是异常签收-- -2
         assert waybillStatus_query(self.billCode_list[0]) == -2
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ from Lib.DispatchScan.dispatchScan import dispatchScan
 from Lib.ReturnRegister.returnRegister import returnRegister
 
 from Lib.SignScan.signScan import signScan
-from Lib.SignScan.exceptionSignScan import exceptionSignScan
+from Lib.SignScan.signReturnScan import signReturnScan
 from Lib.SignScan.signDelete import signDelete
 
 from Common.login import login
@@ -120,65 +120,64 @@ class TestProcess6:
             assert waybillStatus_query(billCode) == 4
 
 
-    @allure.story('一级网点01-异常签收操作')
-    @allure.title('一级网点01-异常签收操作')
+    @allure.story('一级网点01-退件签收操作')
+    @allure.title('一级网点01-退件签收操作')
     @allure.severity('critical')
-    @allure.description('一级网点01-异常签收操作')
-    @pytest.mark.exceptionSignScan
-    def test_exceptionSignScan_site01(self):
-        # 异常签收记录---这里只异常签收第一个运单
-        exceptionSignScan().exceptionSignScan(self.site01_token, self.billCode_list[0],"730")
+    @allure.description('一级网点01-退件签收操作')
+    @pytest.mark.signReturnScan
+    def test_signReturnScan_site01(self):
+        # 退件签收记录---这里只退件签收一个运单
+        signReturnScan().signReturnScan(self.site01_token, self.billCode_list[0])
 
-        # 断言这个运单的最新状态是否是异常签收-- -2
-        assert waybillStatus_query(self.billCode_list[0]) == -2
-
+        # 断言这个运单的最新状态是否是退件签收-- 730
+        assert waybillStatus_query(self.billCode_list[0]) == 730
 
 
     # 一级网点01--删除签收操作
-    @allure.story('一级网点01-删除签收操作')
-    @allure.title('一级网点01-删除签收操作')
-    @allure.severity('critical')
-    @allure.description('一级网点01-删除签收操作')
-    @pytest.mark.signDelete
-    def test_signDelete_site01(self):
-        # 删除签收记录---这里就删了第一个运单
-        signDelete().signDelete(self.site01_token,self.billCode_list[0])
-
-        # 断言这个运单的最新状态是否回退到 派送中---4
-        assert waybillStatus_query(self.billCode_list[0]) == 4
-
-
-    # 一级网点01--取消退件
-    @allure.story('一级网点01-取消退件')
-    @allure.title('一级网点01-取消退件')
-    @allure.severity('critical')
-    @allure.description('一级网点01-取消退件')
-    @pytest.mark.signDelete
-    def test_returnRegisterCancle_site01(self):
-        # 删除签收记录---这里就删了第一个运单
-        returnRegister().returnRegisterCancle(self.site01_token,self.billCode_list[0])
-
-        # 断言这个运单的退件状态是否为 已取消
-        assert returnRegisterRecordID_query(self.billCode_list[0])[1] == 1
-
-
-
-    # 一级网点01--正常签收
-    @allure.story('一级网点01--正常签收')
-    @allure.title('一级网点01--正常签收')
-    @allure.severity('critical')
-    @allure.description('一级网点01--正常签收')
-    @pytest.mark.signScan
-    def test_signScan_site01(self):
-        # 循环进行签收扫描
-        for billCode in self.billCode_list:
-            signScan().signScan(self.site01_token, billCode)
-        # 循环断言运单状态为已签收--5
-        for billCode in self.billCode_list:
-            assert waybillStatus_query(billCode) == 5
-        # 循环断言签收轨迹是否生成，且super_aciton_code == 5
-        for billCode in self.billCode_list:
-            assert waybillTrack_query(billCode) == 5
+    # @allure.story('一级网点01-删除签收操作')
+    # @allure.title('一级网点01-删除签收操作')
+    # @allure.severity('critical')
+    # @allure.description('一级网点01-删除签收操作')
+    # @pytest.mark.signDelete
+    # def test_signDelete_site01(self):
+    #     # 删除签收记录---这里就删了第一个运单
+    #     signDelete().signDelete(self.site01_token,self.billCode_list[0])
+    #
+    #     # 断言这个运单的最新状态是否回退到 派送中---4
+    #     assert waybillStatus_query(self.billCode_list[0]) == 4
+    #
+    #
+    # # 一级网点01--取消退件
+    # @allure.story('一级网点01-取消退件')
+    # @allure.title('一级网点01-取消退件')
+    # @allure.severity('critical')
+    # @allure.description('一级网点01-取消退件')
+    # @pytest.mark.signDelete
+    # def test_returnRegisterCancle_site01(self):
+    #     # 删除签收记录---这里就删了第一个运单
+    #     returnRegister().returnRegisterCancle(self.site01_token,self.billCode_list[0])
+    #
+    #     # 断言这个运单的退件状态是否为 已取消
+    #     assert returnRegisterRecordID_query(self.billCode_list[0])[1] == 1
+    #
+    #
+    #
+    # # 一级网点01--正常签收
+    # @allure.story('一级网点01--正常签收')
+    # @allure.title('一级网点01--正常签收')
+    # @allure.severity('critical')
+    # @allure.description('一级网点01--正常签收')
+    # @pytest.mark.signScan
+    # def test_signScan_site01(self):
+    #     # 循环进行签收扫描
+    #     for billCode in self.billCode_list:
+    #         signScan().signScan(self.site01_token, billCode)
+    #     # 循环断言运单状态为已签收--5
+    #     for billCode in self.billCode_list:
+    #         assert waybillStatus_query(billCode) == 5
+    #     # 循环断言签收轨迹是否生成，且super_aciton_code == 5
+    #     for billCode in self.billCode_list:
+    #         assert waybillTrack_query(billCode) == 5
 
 
 
