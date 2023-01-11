@@ -27,7 +27,7 @@ import allure, os,json,time
 
 
 """
-核心测试场景1-正常流程：
+核心测试场景1-不涉及装包发车的 收发到派签 主流程；
             一级网点登录--下单--批量打印--》揽件扫描--》发件扫描，发往分拨中心01
              分拨中心登录--》到件扫描--》发件扫描，发往末端网点
              末端网点登录--》到件扫描--》派件扫描--》签收扫描 ---》删除签收---》异常签收         
@@ -128,13 +128,15 @@ class TestProcess1:
 
 
 
-    @allure.story('一级网点-批量发件扫描')
-    @allure.title('一级网点-批量发件扫描')
+    @allure.story('一级网点-发件扫描')
+    @allure.title('一级网点-发件扫描')
     @allure.severity('critical')
-    @allure.description('一级网点-批量发件扫描')
+    @allure.description('一级网点-发件扫描')
     @pytest.mark.sendScan
     def test_sendScan_site01(self):
-        sendScan().sendScan(self.site01_token, self.billCode_list,Ds01_code)
+        # 循环进行发件扫描
+        for billCode in self.billCode_list:
+            sendScan().sendScan(self.site01_token, billCode, Ds01_code)
         # 循环断言运单状态为---2映射的状态是运输中
         for billCode in self.billCode_list:
             assert waybillStatus_query(billCode) == 2
@@ -144,27 +146,8 @@ class TestProcess1:
 
 
 
-    @allure.story('一级网点-发车扫描')
-    @allure.title('一级网点-发车扫描')
-    @allure.severity('critical')
-    @allure.description('一级网点-发车扫描')
-    @pytest.mark.sendCarScan
-    def test_sendCarScan_site01(self):
-        res_list  = sendCarScan().sendCarScan(self.site01_token,self.billCode_list)
-        self.detailCode.append(res_list[1])  # 车次清单号保存起来
-
 
 #-----------------------------------------------------------------------------------------------------------------------
-    @allure.story('分拨中心-到车扫描')
-    @allure.title('分拨中心-到车扫描')
-    @allure.severity('critical')
-    @allure.description('分拨中心-到车扫描')
-    @pytest.mark.arrivalCarScan
-    def test_arrivalCarScan_Ds01(self):
-        arrivalCarScan().arrivalCarScan(self.Ds01_token,self.detailCode[0],Ds01_code)
-
-
-
     @allure.story('分拨中心01-到件扫描')
     @allure.title('分拨中心01-到件扫描')
     @allure.severity('critical')
@@ -182,15 +165,16 @@ class TestProcess1:
             assert waybillTrack_query(billCode) == 3
 
 
-
     # 分拨中心01-发件扫描-下一站：一级网点02
-    @allure.story('分拨中心01-批量发件扫描')
-    @allure.title('分拨中心01-批量发件扫描')
+    @allure.story('分拨中心01-发件扫描')
+    @allure.title('分拨中心01-发件扫描')
     @allure.severity('critical')
-    @allure.description('分拨中心01-批量发件扫描')
+    @allure.description('分拨中心01-发件扫描')
     @pytest.mark.sendScan
     def test_sendScan_Ds01(self):
-        sendScan().sendScan(self.Ds01_token, self.billCode_list,site02_code)
+        # 循环进行中心到件扫描
+        for billCode in self.billCode_list:
+            sendScan().sendScan(self.Ds01_token, billCode,site02_code)
         # 循环断言运单状态为--2映射的状态是运输中
         for billCode in self.billCode_list:
             assert waybillStatus_query(billCode) == 2
@@ -198,28 +182,7 @@ class TestProcess1:
         for billCode in self.billCode_list:
             assert waybillTrack_query(billCode) == 2
 
-
-
-    @allure.story('分拨中心01-发车扫描')
-    @allure.title('分拨中心01-发车扫描')
-    @allure.severity('critical')
-    @allure.description('分拨中心01-发车扫描')
-    @pytest.mark.sendCarScan
-    def test_sendCarScan_Ds01(self):
-        res_list = sendCarScan().sendCarScan(self.Ds01_token, self.billCode_list)
-        self.detailCode.append(res_list[1])  # 车次清单号保存起来
-
-# ------------------------------------------------------------------------------------------------------------------------
-    @allure.story('一级网点02-到车扫描')
-    @allure.title('一级网点02-到车扫描')
-    @allure.severity('critical')
-    @allure.description('一级网点02-到车扫描')
-    @pytest.mark.arrivalCarScan
-    def test_arrivalCarScan_site02(self):
-        arrivalCarScan().arrivalCarScan(self.site02_token, self.detailCode[1], site02_code)
-
-
-
+# # ------------------------------------------------------------------------------------------------------------------------
     @allure.story('一级网点02-到件扫描')
     @allure.title('一级网点02-到件扫描')
     @allure.severity('critical')
@@ -235,8 +198,6 @@ class TestProcess1:
         # 循环断言到件轨迹是否生成，且super_aciton_code == 3
         for billCode in self.billCode_list:
             assert waybillTrack_query(billCode) == 3
-
-
 
 
     # 一级网点02--派件扫描
@@ -312,13 +273,9 @@ class TestProcess1:
 
 
 
-
-
-
-
 if __name__ == '__main__':
     # 执行用例，生成tmp
-    pytest.main(['test_Process1.py', '-s', '--alluredir', '../report/tmp'])
+    pytest.main(['test_Process9.py', '-s', '--alluredir', '../report/tmp'])
     # 复制环境变量文件
     # os.system('copy environment.properties report/tmp/environment.properties')
     # # # 生成报告

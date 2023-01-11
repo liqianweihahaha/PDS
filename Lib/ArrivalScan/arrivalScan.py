@@ -26,6 +26,6 @@ class arrivalScan:
 
 if __name__ == "__main__":
     token = login("880220031","test123456")
-    res = arrivalScan().arrivalScan(token,"BD040021504447")
+    res = arrivalScan().arrivalScan(token,"BD040094519016")
 
 

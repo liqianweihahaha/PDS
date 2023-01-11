@@ -1,7 +1,14 @@
 import pymysql
 
 # UAT数据库
-hostname = "47.241.40.42"
+# hostname = "47.241.40.42"
+# username = "logistic"
+# password = "ARxk8mkoyRf8"
+# dbname = "speedaf_cheetah_warehouse_bd"    # 要连接的库名
+
+# UAT数据库
+hostname = "8.219.10.209"
+port = 2333
 username = "logistic"
 password = "ARxk8mkoyRf8"
 dbname = "speedaf_cheetah_warehouse_bd"    # 要连接的库名
@@ -18,7 +25,7 @@ dbname = "speedaf_cheetah_warehouse_bd"    # 要连接的库名
 # 查询运单状态
 def waybillStatus_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -41,7 +48,7 @@ def waybillStatus_query(waybill):
 # 查询运单记录
 def waybill_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -64,7 +71,7 @@ def waybill_query(waybill):
 # 查询打印状态
 def printStatus_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -87,7 +94,7 @@ def printStatus_query(waybill):
 # 查询短信发送记录
 def smsRecord_query(waybill,type):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -115,7 +122,7 @@ def smsRecord_query(waybill,type):
 # 查询运单的问题件记录
 def problemRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -141,7 +148,7 @@ def problemRecord_query(waybill):
 # 查询运单的拦截件记录 以及拦截状态
 def interceptRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -166,7 +173,7 @@ def interceptRecord_query(waybill):
 # 查询tt_waybill_problem问题件表中对应运单的id，用于回复问题件接口的传参
 def problemRecordId_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -190,7 +197,7 @@ def problemRecordId_query(waybill):
 # 查询留仓登记记录表
 def keepScanRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -213,7 +220,7 @@ def keepScanRecord_query(waybill):
 # 存件记录查询
 def shelvesScanRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -236,7 +243,7 @@ def shelvesScanRecord_query(waybill):
 # 退件登记记录查询
 def returnRegisterRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -259,7 +266,7 @@ def returnRegisterRecord_query(waybill):
 # 查询最新轨迹状态
 def waybillTrack_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port,user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -282,7 +289,7 @@ def waybillTrack_query(waybill):
 # 查询签收记录表对应的记录id，用于删除签收
 def signRecord_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -305,7 +312,7 @@ def signRecord_query(waybill):
 # 查询退件登记表对应的记录id，用于取消退件
 def returnRegisterRecordID_query(waybill):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -330,7 +337,7 @@ def returnRegisterRecordID_query(waybill):
 # 查询箱号表是否有该箱号数据
 def whseBoxCode_query(box_code):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -353,7 +360,7 @@ def whseBoxCode_query(box_code):
 # 查询装箱表是否有该条数据
 def whsePackScan_query(box_code):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -376,7 +383,7 @@ def whsePackScan_query(box_code):
 # 查询上架表是否有该条数据
 def onShelfScan_query(box_code):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname,port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -399,7 +406,7 @@ def onShelfScan_query(box_code):
 # 查询箱子表 该箱的完结状态
 def boxStatus_query(box_code):
     # 创建数据库连接
-    conn = pymysql.connect(host=hostname, user=username, password=password, db=dbname)
+    conn = pymysql.connect(host=hostname, port=port, user=username, password=password, db=dbname)
     # 建立游标
     cursor = conn.cursor()
 
@@ -422,5 +429,5 @@ def boxStatus_query(box_code):
 
 
 
-a = boxStatus_query('BDB202209280008')
-print(a)
+# a = returnRegisterRecordID_query('BD121503934122')[1]
+# print(a)

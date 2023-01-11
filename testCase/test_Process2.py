@@ -53,7 +53,8 @@ class TestProcess2:
         data = {
             "blBase64": "0",
             "printType": "2",  # 二联单=2   三联单=1  退件单=5
-            "waybillCodeSet": self.billCode_list
+            "waybillCodeSet": self.billCode_list,
+            'printSource': '1'
         }
         Print().print(data, self.site01_token)
         # 循环断言运单打印状态为已打印--1
@@ -85,7 +86,8 @@ class TestProcess2:
         data = {
             "blBase64": "0",
             "printType": "2",  # 二联单=2   三联单=1  退件单=5
-            "waybillCodeSet": self.billCode_list
+            "waybillCodeSet": self.billCode_list,
+            'printSource': '1'
         }
         Print().print(data, self.site01_token)
         # 循环断言运单打印状态为已打印--1

@@ -17,6 +17,7 @@ secretKey = "hvmaYYOyegNy4muv"
 def createOrder():
     timeline = str(int((time.time() + 0.5) * 1000))
     data = {
+        "taxMethod": "DDU",  # 税费方式 DDU、DDP
         "acceptAddress": "4324UYUYI234",
         "ACCEPT_STREET_NAME":"34234234",
         "acceptCityCode": "C034",

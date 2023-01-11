@@ -11,8 +11,10 @@ class Print:
         headers = {'Content-Type': 'application/json',
                    'Authorization': token,
                    'lang': "zh_CN",
-                   'Connection': 'close'
-                   }
+                   'Connection': 'close',
+
+        }
+
 
         data = inData
 
