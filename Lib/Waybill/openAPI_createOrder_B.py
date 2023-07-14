@@ -24,6 +24,7 @@ def createOrder():
         "acceptCityName": "534RWERWERW5345",
         "acceptCompanyName": "acceptCompanyName",
         "acceptCountryCode": "BD",
+        "currencyType": "USD",
         "acceptCountryName": "Bangladesh",
         "acceptDistrictCode": "A0624",
         "acceptDistrictName": "432TRETERTRET4234",

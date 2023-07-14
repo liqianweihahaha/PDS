@@ -45,10 +45,18 @@ def write_excelData(sheet_index, x, y, data):
 
 
 if __name__ == "__main__":
-    data = {
-        "blBase64": "0",
-        "printType": "2",
-        "waybillCodeSet": [111, 222]
-    }
-    value = write_excelData(0, 4, 5, str(data))
-    print(value)
+
+    # data = {
+    #     "blBase64": "0",
+    #     "printType": "2",
+    #     "waybillCodeSet": [111, 222]
+    # }
+    # value = write_excelData(0, 4, 5, str(data))
+    # print(value)
+
+
+   res_list = get_excelData('揽件接口用例',2,3,1,2)
+   print(res_list)
+
+
+

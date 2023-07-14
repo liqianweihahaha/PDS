@@ -29,6 +29,6 @@ class arrivalCarScan:
 
 if __name__ == "__main__":
     token = login("880220033","test123456")
-    res = arrivalCarScan().arrivalCarScan(token,'100000000084001','880010')
+    res = arrivalCarScan().arrivalCarScan(token,"RWBD0000000013","880010")
 
 

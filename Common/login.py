@@ -10,6 +10,7 @@ def login(username, password):
     headers = {'content-type': 'application/json'}
     # 密码加密
     password = myEncrypt(password)
+    # print(password)
 
     data = {"userName": username, "password": password}
     re = requests.post(url, json=data, headers=headers, verify=False)

@@ -6,7 +6,7 @@ from Common.get_NowTime import get_now_time
 
 # 发件扫描接口
 class sendScan:
-    def sendScan(self,token,waybillCode,nextSite):
+    def sendScan(self,token,waybillCode,nextSite,detailCode):
         url = uat_config + "/basic/manager/sendScan/add"
         headers = {'Content-Type': 'application/json',
                    'Authorization': token,
@@ -16,6 +16,7 @@ class sendScan:
         data = {
             "waybillCode":waybillCode,
             "nextSite":nextSite,
+            "detailCode":detailCode
                 }
 
         re = requests.post(url,json=data,headers=headers)
@@ -31,7 +32,7 @@ class sendScan:
 
 
 if __name__ == "__main__":
-    token = login("880220030","test123456")
-    res = sendScan().sendScan(token,"BD040093518829",88011)
+    token = login("880220031","test123456")
+    res = sendScan().sendScan(token,"BDBAG2300000024",880009,"RWBD0000000007")
 
 

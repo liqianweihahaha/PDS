@@ -7,6 +7,7 @@ from Lib.Waybill.createWaybill import Waybill
 from Lib.Print.print import Print
 from Lib.PickedScan.pickScan import pickScan
 from Lib.SendScan.sendScan import sendScan
+from Lib.PackCardScan.packCardScan import packCardScan
 from Lib.ArrivalScan.arrivalScan import arrivalScan
 from Lib.ArrivalCarScan.arrivalCarScan import arrivalCarScan
 from Lib.SendCarScan.sendCarScan import sendCarScan
@@ -27,10 +28,10 @@ import allure, os,json,time
 
 
 """
-核心测试场景1-不涉及装包发车的 收发到派签 主流程；
+核心测试场景9-涉及装包发车的主流程；
             一级网点登录--下单--批量打印--》揽件扫描--》发件扫描，发往分拨中心01
-             分拨中心登录--》到件扫描--》发件扫描，发往末端网点
-             末端网点登录--》到件扫描--》派件扫描--》签收扫描 ---》删除签收---》异常签收         
+             分拨中心01登录--》单票到件扫描--》打印包号，装包扫描--》打印任务单，发件扫描，发往末端网点--》发车扫描
+             末端网点登录--》到车扫描--》单票到件扫描--》派件扫描--》签收扫描 ---》删除签收---》异常签收         
 """
 @allure.story('核心测试场景1-全流程')
 @pytest.mark.TestProcess1
@@ -48,7 +49,8 @@ class TestProcess1:
         self.site02_token = login(site02_username, site02_password)
 
         self.billCode_list = []  # 运单号list
-        self.detailCode = []   # 车次清单
+        self.detailCode = []   # 任务单
+        self.packCard = []  # 包号
 
 
     @allure.story('一级网点-快递录单')
@@ -136,7 +138,7 @@ class TestProcess1:
     def test_sendScan_site01(self):
         # 循环进行发件扫描
         for billCode in self.billCode_list:
-            sendScan().sendScan(self.site01_token, billCode, Ds01_code)
+            sendScan().sendScan(self.site01_token, billCode, Ds01_code,"")
         # 循环断言运单状态为---2映射的状态是运输中
         for billCode in self.billCode_list:
             assert waybillStatus_query(billCode) == 2
@@ -165,6 +167,40 @@ class TestProcess1:
             assert waybillTrack_query(billCode) == 3
 
 
+
+    @allure.story('分拨中心01-打印包号')
+    @allure.title('分拨中心01-打印包号')
+    @allure.severity('critical')
+    @allure.description('分拨中心01-打印包号')
+    @pytest.mark.packCardPrint
+    def test_packCardPrint_Ds01(self):
+            res_list = packCardScan().packCardPrint(self.Ds01_token,"88011",'880010')
+            self.packCard.append(res_list[1])
+
+
+    @allure.story('分拨中心01-装包扫描')
+    @allure.title('分拨中心01-装包扫描')
+    @allure.severity('critical')
+    @allure.description('分拨中心01-装包扫描')
+    @pytest.mark.packCardScan
+    def test_packCardScan_Ds01(self):
+        # 装包扫描
+        packCardScan().packCardScan(self.Ds01_token,self.packCard[0],self.billCode_list)
+
+
+
+
+    @allure.story('分拨中心01-打印任务单')
+    @allure.title('分拨中心01-打印任务单')
+    @allure.severity('critical')
+    @allure.description('分拨中心01-打印任务单')
+    @pytest.mark.detailCodePrint
+    def test_detailCodePrint_Ds01(self):
+        res_list = sendCarScan().detailCodePrint(self.Ds01_token)
+        self.detailCode.append(res_list[1])
+
+
+
     # 分拨中心01-发件扫描-下一站：一级网点02
     @allure.story('分拨中心01-发件扫描')
     @allure.title('分拨中心01-发件扫描')
@@ -172,9 +208,8 @@ class TestProcess1:
     @allure.description('分拨中心01-发件扫描')
     @pytest.mark.sendScan
     def test_sendScan_Ds01(self):
-        # 循环进行中心到件扫描
-        for billCode in self.billCode_list:
-            sendScan().sendScan(self.Ds01_token, billCode,site02_code)
+        # 中心发件扫描,扫描包牌号发件
+        sendScan().sendScan(self.Ds01_token, self.packCard[0],site02_code,self.detailCode[0])
         # 循环断言运单状态为--2映射的状态是运输中
         for billCode in self.billCode_list:
             assert waybillStatus_query(billCode) == 2
@@ -182,7 +217,30 @@ class TestProcess1:
         for billCode in self.billCode_list:
             assert waybillTrack_query(billCode) == 2
 
-# # ------------------------------------------------------------------------------------------------------------------------
+
+
+    @allure.story('分拨中心01-发车扫描')
+    @allure.title('分拨中心01-发车扫描')
+    @allure.severity('critical')
+    @allure.description('分拨中心01-发车扫描')
+    @pytest.mark.sendCarScan
+    def test_sendCarScan_Ds01(self):
+        sendCarScan().sendCarScan(self.Ds01_token, self.detailCode[0])
+
+
+
+
+# # # ------------------------------------------------------------------------------------------------------------------------
+    @allure.story('一级网点02-到车扫描')
+    @allure.title('一级网点02-到车扫描')
+    @allure.severity('critical')
+    @allure.description('一级网点02-到车扫描')
+    @pytest.mark.arrivalCarScan
+    def test_arrivalCarScan_site02(self):
+        arrivalCarScan().arrivalCarScan(self.site02_token, self.detailCode[0], site02_code)
+
+
+
     @allure.story('一级网点02-到件扫描')
     @allure.title('一级网点02-到件扫描')
     @allure.severity('critical')
@@ -219,8 +277,6 @@ class TestProcess1:
         # 循环断言派件轨迹是否生成，且super_aciton_code == 4
         for billCode in self.billCode_list:
             assert waybillTrack_query(billCode) == 4
-
-
 
     # 一级网点02--签收扫描
     @allure.story('一级网点02-签收扫描')

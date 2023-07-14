@@ -44,9 +44,9 @@ if __name__ == '__main__':
     password = myEncrypt("test123456")
 
     print(password)
-    # data = {"userName": "880220030", "password": password}
-    #
-    # re = requests.post(url, json=data, headers=headers)
-    # print(re.text)
+    payload = {"userName": "880220030", "password": password}
+
+    re = requests.post(url, json=payload, headers=headers)
+    print(re.text)
 
 
